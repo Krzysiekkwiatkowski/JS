@@ -37,4 +37,63 @@ $(function () {
             $(this).parent().remove();
         });
     });
+
+    //Zadanie 3
+    var insertHere = $('section').eq(0);
+    var sortButton = $('<button id="sort">');
+    insertHere.append(sortButton);
+    sortButton.text('Sortuj');
+    var sort = $('#sort');
+    sort.on('click', function () {
+        var elements = $('.main').children();
+        var liElements = $('.main').children().text();
+        var readyArray = liElements.split('Usuń');
+        var array = [];
+        for (var i = 0; i < readyArray.length; i++) {
+            array[i] = readyArray[i].trim();
+        }
+        array.pop();
+        for (var i = 0; i < array.length - 1; i++) {
+            var result = sorting(array[i], array[i + 1]);
+            if (result == -1) {
+                var first = array[i + 1];
+                var second = array[i];
+                array[i] = first;
+                array[i + 1] = second;
+            }
+        }
+        for (var i = 0; i < array.length; i++) {
+            var lis = $('.main').children();
+            var toPut = null;
+            for (var j = 0; j < lis.length; j++) {
+                if(lis.eq(j).text().replace("Usuń", "").trim() == array[array.length -1 - i]){
+                    toPut = lis.eq(j).detach();
+                    console.log(j);
+                }
+            }
+            toPut.parent().prepend(toPut);
+        }
+    });
+
+    function sorting(a, b) {
+        var firstLength = a.length;
+        var secondLength = b.length;
+        var max = 0;
+        if (firstLength > secondLength) {
+            max = firstLength;
+        } else if (secondLength > firstLength) {
+            max = secondLength;
+        } else {
+            max = firstLength;
+        }
+        for (var i = 0; i < max; i++) {
+            if (a.charCodeAt(i) > b.charCodeAt(i)) {
+                return -1;
+            } else if (b.charCodeAt(i) > a.charCodeAt(i)) {
+                return 1;
+            } else {
+                continue;
+            }
+        }
+    }
 });
