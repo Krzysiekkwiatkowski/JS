@@ -43,8 +43,7 @@ $(function () {
     var sortButton = $('<button id="sort">');
     insertHere.append(sortButton);
     sortButton.text('Sortuj');
-    var sort = $('#sort');
-    sort.on('click', function () {
+    insertHere.children().last().on('click', $('#sort'), function () {
         var elements = $('.main').children();
         var liElements = $('.main').children().text();
         var readyArray = liElements.split('Usuń');
@@ -60,6 +59,7 @@ $(function () {
                 var second = array[i];
                 array[i] = first;
                 array[i + 1] = second;
+                i=0;
             }
         }
         for (var i = 0; i < array.length; i++) {
@@ -68,10 +68,9 @@ $(function () {
             for (var j = 0; j < lis.length; j++) {
                 if(lis.eq(j).text().replace("Usuń", "").trim() == array[array.length -1 - i]){
                     toPut = lis.eq(j).detach();
-                    console.log(j);
                 }
             }
-            toPut.parent().prepend(toPut);
+            $('.main').prepend(toPut);
         }
     });
 
