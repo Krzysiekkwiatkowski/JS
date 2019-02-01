@@ -2,6 +2,7 @@ $(function () {
     var buttonUp = $('i').eq(0).parent();
     var buttonDown = $('i').eq(1).parent();
     var buttonSave = $('i').eq(2).parent();
+    var progressBar = $('.progressInner');
     buttonUp.on('click', function () {
         var spinner = $('#spinnerValue');
         var minInput = $('#min');
@@ -13,7 +14,9 @@ $(function () {
         var spinner = $('#spinnerValue');
         var actualValue = parseFloat(spinner.attr('value'));
         if(actualValue + step <= max) {
-            spinner.attr('value', Math.round((actualValue + step)*10)/10);
+            var result = Math.round((actualValue + step)*10)/10;
+            spinner.attr('value', result);
+            progressBar.css('width', actual((result - min), (max - min)) + '%');
         }
     });
 
@@ -28,7 +31,9 @@ $(function () {
         var spinner = $('#spinnerValue');
         var actualValue = parseFloat(spinner.attr('value'));
         if(actualValue - step >= min) {
-            spinner.attr('value', Math.round((actualValue - step)*10)/10);
+            var result = Math.round((actualValue - step)*10)/10;
+            spinner.attr('value', result);
+            progressBar.css('width', actual((result - min), (max - min)) + '%');
         }
     });
 
@@ -44,5 +49,10 @@ $(function () {
         spinner.attr('max', max);
         spinner.attr('step', step);
         spinner.attr('value', min);
+        progressBar.css('width', '0%');
     });
+
+    function actual(actual, max) {
+        return (actual * 100 )/ max;
+    }
 });
